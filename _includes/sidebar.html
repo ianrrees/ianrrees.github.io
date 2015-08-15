@@ -1,0 +1,39 @@
+<div id="sidebar-wrapper">
+    <div id="sidebar-middle">
+        <div id="picture" style="
+            background-image: url({{ "/media/profile.jpg" | prepend: site.baseurl }});
+            background-image: image-set(
+                {{ "/media/profile-lowres.jpg" | prepend: site.baseurl }} 1x,
+                {{ "/media/profile.jpg" | prepend: site.baseurl }} 2x
+            );
+        "></div>
+    <p>
+        {{site.description}}
+    </p>
+    
+    <hr />
+
+    <div class="navigation">
+        <ul>
+            {% if page.collection == "posts" %}
+            <li><a href="{{ "/firehose/about.html" | prepend: site.baseurl }}">About</a></li>
+            <li><a href="{{ "/firehose/" | prepend: site.baseurl }}">All Posts</a></li>
+            <li><a href="{{ "/ice/" | prepend: site.baseurl }}">Ice Posts</a></li>
+            <li><a href="{{ "/tech/" | prepend: site.baseurl }}">Tech Posts</a></li>
+            {% elsif page.collection == "ice" %}
+            <li><a href="{{ "/ice/about.html" | prepend: site.baseurl }}">About</a></li>
+            <li><a href="{{ "/ice/" | prepend: site.baseurl }}">Posts</a></li>
+            {% elsif page.collection == "tech" %}
+            <li><a href="{{ "/tech/about.html" | prepend: site.baseurl }}">About</a></li>
+            <li><a href="{{ "/tech/" | prepend: site.baseurl }}">Posts</a></li>
+            <li><a href="http://github.com/{{ site.github }}"><i class="fa fa-github"></i></a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <hr />
+        
+    <p>{{site.footer}}<p>
+
+    </div>
+</div>

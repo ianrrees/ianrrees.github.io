@@ -1,0 +1,40 @@
+# Site settings
+title: Ian's blogosite
+email: code@ianrees.nz
+baseurl: "/tech" # the subpath of your site, e.g. /blog
+url: "https://ianrees.nz/"
+
+# The collections feature lets us host multiple isolated blogs from one source
+collections:
+    ice:
+        output: true
+    tech:
+        output: true
+
+# Sidebar settings
+description: Ian's Personal Blog
+
+# Social icons
+github: ianrrees
+
+footer: © Ian Rees
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+kramdown:
+    input: GFM
+
+plugins:
+    - jekyll-responsive-image
+
+responsive_image:
+  auto_rotate: true
+  template: _includes/responsive-image.html
+  output_path_format: media/resized/%{filename}-%{width}x%{height}.%{extension}
+  sizes:
+    - width: 320
+    - width: 480
+    - width: 800
+    - width: 1600
