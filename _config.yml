@@ -1,0 +1,17 @@
+# Site settings
+title: Ian's blogosite
+email: ian.rees@gmail.com
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://ianrrees.github.io/"
+
+# Sidebar settings
+description: Generalist tech-engineer guy
+
+# Social icons
+github: ianrrees
+
+footer: © Ian Rees
+
+# Build settings
+markdown: kramdown
+
