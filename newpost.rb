@@ -16,10 +16,6 @@ title: "#{ARGV[0]}"
 categories:
 ---
 
-{{ page.title }}
-===
-
-
 END
 
 File.open(post, 'w') do |f|
@@ -27,3 +23,4 @@ File.open(post, 'w') do |f|
 end
 
 system("open", post)
+system("git", "add", post)
