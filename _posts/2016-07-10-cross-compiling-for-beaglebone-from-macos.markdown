@@ -35,7 +35,7 @@ Crosstools requires a few things that don't come with a standard MacOS environme
 
 Anyways, first take care of the Homebrew bits:
 
-    $brew install coreutils (I'm planning on submitting a PR to make this a regular dependency of crosstool-ng)
+    $brew install coreutils ( https://github.com/Homebrew/homebrew-core/pull/2892 )
     $brew tap homebrew/dupes
     $brew install homebrew/dupes/grep homebrew/dupes/make
     $brew install crosstool-ng
@@ -52,7 +52,7 @@ There are a plethora of options available in here, and I won't pretend for a sec
 
   * Paths and misc options
     * Change all the paths to be below the new volume you've created.  Eg I have local tarballs directory set to /Volumes/ct-beaglebone/src .  The issue here is that crosstools needs these directories to exist, be case-senstive, etc.
-    * Add -fbracket-depth=1024 in "Extra host compiler flags".
+    * Add "-fbracket-depth=1024 -fno-unroll-loops" in Extra host compiler flags.
   * Binary Utilities
     * Change "Linkers to Enable", to only enable ld.
 
