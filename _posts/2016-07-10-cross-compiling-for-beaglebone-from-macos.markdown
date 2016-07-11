@@ -52,8 +52,11 @@ There are a plethora of options available in here, and I won't pretend for a sec
 
   * Paths and misc options
     * Change all the paths to be below the new volume you've created.  Eg I have local tarballs directory set to /Volumes/ct-beaglebone/src .  The issue here is that crosstools needs these directories to exist, be case-senstive, etc.
-    * Add -fbracket-depth=1024 in "Extra host compiler flags" 
-  * Ensure that the path to the local tarballs directory exists and is writeable
+    * Add -fbracket-depth=1024 in "Extra host compiler flags".
+  * Binary Utilities
+    * Change "Linkers to Enable", to only enable ld.
 
-I had to manually edit the .config file created by menuconfig to change CT\_WANTS\_STATIC\_LINK and CT\_CC\_GCC\_STATIC\_LIBSTDCXX both to 'n'
+Then, there are a couple manual configuration changes that need to be made outside of menuconfig:
+  * Ensure that the path to the local tarballs directory exists and is writeable
+  * Manually edit the .config file created by menuconfig to change CT\_WANTS\_STATIC\_LINK and CT\_CC\_GCC\_STATIC\_LIBSTDCXX both to 'n'
 
