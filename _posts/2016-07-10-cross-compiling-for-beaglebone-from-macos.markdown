@@ -65,6 +65,7 @@ There are a plethora of options available in here, and I won't pretend for a sec
     * Turn off dmalloc and strace
 
 Then, there are a couple manual configuration changes that need to be made outside of menuconfig:
+
   * Ensure that the path to the local tarballs directory exists and is writeable
   * Manually edit the .config file created by menuconfig to change CT\_WANTS\_STATIC\_LINK and CT\_CC\_GCC\_STATIC\_LIBSTDCXX both to 'n'
 
