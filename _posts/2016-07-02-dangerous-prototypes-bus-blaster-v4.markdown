@@ -23,12 +23,12 @@ It comes with configuration files for the Bus Blaster (installed at /usr/local/s
     Info : Consider using the 'ftdi' interface driver, with configuration files in interface/ftdi/...
     Error: unable to open ftdi device: unable to claim usb device. Make sure the default FTDI driver is not in use
 
-The issue is that there's an Apple driver included with MacOS that's grabbing a handle on the FTDI interface chip in the Bus Blaster.  There's a post on [Alvaro Prieto's blog](http://alvarop.com/2014/01/using-busblaster-openocd-on-osx-mavericks) that explains in more detail, but is a little dated and recommends some things that don't work in MacOS 10.11 (aka El Capitan)...
+The issue is that there's an Apple driver included with MacOS (or in my case, that I installed from FTDI) that's grabbing a handle on the FTDI interface chip in the Bus Blaster.  There's a post on [Alvaro Prieto's blog](http://alvarop.com/2014/01/using-busblaster-openocd-on-osx-mavericks) that explains in more detail, but is a little dated and recommends some things that don't work for me in MacOS 10.11 (aka El Capitan)...
 
-Unfortunately, it seems like the new signing infrastructure in 10.11 precludes Alvaro's suggestion to modify the kext plist so that the Apple FTDI driver doesn't load for one specific VID/PID.  We can still manually unload/load the Apple drive though:
+Unfortunately, it seems like the new signing infrastructure in 10.11 precludes Alvaro's suggestion to modify the kext plist so that the official driver doesn't load for one specific VID/PID.  We can still manually unload/load the official driver though; either `com.apple.driver.AppleUSBFTDI` for the Apple one, or `com.FTDI.driver.FTDIUSBSerialDriver` for the FTDI one:
 
-    $sudo kextunload -bundle-id com.FTDI.driver.FTDIUSBSerialDriver
-    $openocd -f path/to/some/driver -f and/perhaps/another
-    $sudo kextload -bundle-id com.FTDI.driver.FTDIUSBSerialDriver
+  1. Unload the driver: `$sudo kextunload -bundle-id name.of.the.driver.bundle`
+  2. Do some stuff in OpenOCD: `$openocd -f path/to/some/openocd/driver -f and/perhaps/another`
+  3. Reload the driver to restore normal operation: `$sudo kextload -bundle-id name.of.the.driver.bundle`
 
 Seems like a pain.  Think I'll move on to the other board that came in today from China, a BeagleBone Green WiFi :).
