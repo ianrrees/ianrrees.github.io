@@ -96,10 +96,8 @@ This particular demo just makes the PRU echo data back - not particularly exciti
 
 We can now use the nifty `config-pin` tool, and `PRU_gpioToggle` example to get a PRU talking with the outside world (but not the ARM host this time).
 config-pin makes use of device tree overlays as discussed in the next section, I think it makes sense to use one or the other depending on your situation.
-Two items to note first:
 
-  * There seems to be a bug wherein the PRU firmware isn't loaded correctly on the first try (hence the rmmod/modprobe following reset) via pin P8.45.  I haven't looked in to the source of this issue.
-  * Pin P8.45 is also used as a boot mode select pin, so don't load it significantly (eg with an LED + resistor) while booting.
+Note that Pin P8.45 is also used as a boot mode select pin, so if you're watching it with something lowish impedance like an LED, put the impedance to ground (or just don't connect it while booting).
 
     # cp PRU_gpioToggle/gen/PRU_gpioToggle.out /lib/firmware/am335x-pru1-fw
     # reboot
@@ -107,6 +105,9 @@ Two items to note first:
     # modprobe pru_rproc
     # config-pin overlay cape-universala
     # config-pin P8.45 pruout
+
+The rmmod/modprobe after reboot are work-arounds for a bug wherein the PRU firmware isn't loaded correctly on the first try.
+I haven't looked in to the source of this issue.
 
 ### Device Tree Overlays
 
