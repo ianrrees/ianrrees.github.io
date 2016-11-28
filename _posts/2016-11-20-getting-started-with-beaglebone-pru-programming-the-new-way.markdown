@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Getting started with BeagleBone PRU programming the new way"
+title: "Getting Started With BeagleBone PRU Programming the New Way"
 categories:
 ---
 
@@ -9,12 +9,10 @@ It's taken a lot more effort than I expected!
 
 There are a lot of moving parts involved, most of which are in software that has changed since the launch (and surge of initial interest) in the BeagleBone.
 So, there's a lot of outdated information around the 'net.
-
 I intend for this post to provide a known-good starting point for doing development using the PRUs on the BeagleBone with reasonably modern Linux kernels (specifically 4.4.30).
 
 For a good overview of the method discussed below, see the [TI wiki](http://processors.wiki.ti.com/index.php/PRU-ICSS_Remoteproc_and_RPMsg), though I believe some details around RPMsg using mailboxes may be outdated.
-
-If you can't be bothered reading that last link - the general idea is that the Linux kernel runs on the main CPU (the ARM in our case) and manages sharing some memory with the firmware on the PRUs.
+The general idea is that the Linux kernel runs on the main CPU (the ARM in our case) and manages sharing some memory with the firmware on the PRUs.
 
 ### Background
 
