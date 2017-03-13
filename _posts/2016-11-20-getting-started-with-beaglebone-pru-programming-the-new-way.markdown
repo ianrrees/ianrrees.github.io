@@ -95,7 +95,7 @@ This particular demo just makes the PRU echo data back - not particularly exciti
 We can now use the nifty `config-pin` tool, and `PRU_gpioToggle` example to get a PRU talking with the outside world (but not the ARM host this time).
 config-pin makes use of device tree overlays as discussed in the next section, I think it makes sense to use one or the other depending on your situation.
 
-__Since writing this, I've noticed that P8.45 is an input to the HDMI on BeagleBones with that enabled... Will update these instructions soon__
+__Since writing this, I've noticed that P8.45 is an input to the HDMI on BeagleBones that support HDMI... On those, either pick a dtb that disables the HDMI, or use a different pin (which might involve using the other PRU)__
 
 Note that Pin P8.45 is also used as a boot mode select pin, so if you're watching it with something lowish impedance like an LED, put the impedance to ground (or just don't connect it while booting).
 
