@@ -23,7 +23,7 @@ The original design uses half of that LM358 as a comparator to drive what looks 
 That signal is active low, and the LED goes between it and the + rail.
 So, I wired up the green side of the LED between the power rails, adding a resistor between it and +, wired up the other half of the opamp as a comparator to make an active-high output for the red side of the LED, and connected the common cathode to ground via the original LED current limiting resistor.
 
-Easy peasy - all it took was one cut trace, a couple jumpers, and three resistors:
+Easy peasy!  Now the LED is green when the iron ON and at temperature, and orange while heating.  All it took was one cut trace, a couple jumpers, and three resistors:
 
 ![Back of FX-888 control PCB]({{ site.url }}/media/20170313-fx888-top.jpg)
 
