@@ -41,7 +41,7 @@ A happy coincidence happened with this project last week. D and I had briefly di
 
 Concurrently, the [VCW](https://valleyworkspace.org) was having a bit of a clean out, to facilitate some repair work on the building, so I was helping out in the mean time. As we were cleaning up some dirty old pieces of MDF, polycarb, and whatever else from a corner of the building, and found a weird old contraption!
 
-TODO: Add photo here
+![The former petrol station signs]({{ site.url }}/media/20170409-scoreboard-cleaned.jpg)
 
 Imagine a sheet of translucent plastic maybe 1x1.5m, painted black on one side, except some big 7-segment digits masked out from the paint. On the other side are hinged baffles to cover the digits. At the time, I figured it was an old scoreboard! Perfect. Looking at it a little closer, there are two big numbers, one red and one green, formatted like 8.888, so it's more likely a sign from a petrol station. But, we can use it either way of course.
 
