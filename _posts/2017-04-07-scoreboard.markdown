@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "scoreboard"
-categories: Electronics
+title: "Scoreboard"
+categories: 
 ---
 
 A small group from [pact](http://www.pactgroup.co.nz/) have been spending an hour or so each week at the [makerspace](http://dspace.org.nz) for the last several weeks, learning to solder and learning a little bit of electronics too. They've finished their first projects, 555-based LED flashers, and are itching to do more! We've had an idea to make a scoreboard for their pickup basketball group as the next project, which seems quite popular. The scoreboard will involve a bit more soldering, plus some thinking about design, some programming, a little woodworking, some cleaning, and who knows what else.
