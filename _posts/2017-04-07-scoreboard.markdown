@@ -12,6 +12,8 @@ Project Goals
 ---
 First and foremost, we want a project that is easy to solder together, involves some steps that require a bit less fine motor control than soldering, and that will result in something interesting. Secondary to those goals, we want a functioning scoreboard.
 
+As the guys cleaned off the old signs, I stuck a few 5mm LEDs on a piece of junk PCB, and hooked them up to a battery so we could figure out what an appropriate spacing will be. My initial thought was that 4 LEDs for each segment would look good, but we ended up deciding on 6.
+
 Personal Goals
 ---
 I spend a lot of my work time reading embedded and application level code, thinking about electronics, occasionally making things work. So, while in some sense this is just a "toy project", there are a few things I'd like to accomplish with it:
@@ -43,14 +45,32 @@ Concurrently, the [VCW](https://valleyworkspace.org) was having a bit of a clean
 
 ![The former petrol station signs]({{ site.url }}/media/20170409-scoreboard-cleaned.jpg)
 
-Imagine a sheet of translucent plastic maybe 1x1.5m, painted black on one side, except some big 7-segment digits masked out from the paint. On the other side are hinged baffles to cover the digits. At the time, I figured it was an old scoreboard! Perfect. Looking at it a little closer, there are two big numbers, one red and one green, formatted like 8.888, so it's more likely a sign from a petrol station. But, we can use it either way of course.
+It's a sheet of translucent plastic maybe 1x1.5m, painted black on one side, except some big 7-segment digits masked out from the paint. On the other side are hinged baffles to cover the digits. At the time, I figured it was an old scoreboard! Perfect. Looking at it a little closer, there are two big numbers, one red and one green, formatted like 8.888, so it's more likely a sign from a petrol station. But, we can use it either way of course.
 
 The main part of the scoreboard is a solid sheet of plastic, and the LEDs will need to be mounted through hole on the PCBs. So, there will need to be some mounting hardware between the plastic and the PCB - I'm currently leaning towards 3D printed washers which might clip on to the PCB and attach to the plastic scoreboard with adhesive.
 
 The [Printed Circuit] Boards
 ---
+The PCB design files live in [their own repo](https://github.com/ianrrees/scoreboard-hardware).
+
 [Dirty PCBs](http://dirtypcbs.com/), my go-to supplier of such things, has really good pricing on "proto packs" of approximately 10 10x10cm 2-sided PCBs, so I'd like to keep our design in that envelope. There will be 28 segments required, so if we're lucky, a single protopack might work with ~3x10cm average size per segment.
+
+Easter weekend, I spent a few hours on the circuit design, and have a first cut of the schematic drawn up. The workflow was fairly straightforward - I went to Digikey and searched for ARM M0+ microcontrollers, in stock, quantity 10, sort by price. ATSAMD10C13A-SSNT was the winner. That's a 48MHz 32 bit computer, with all kinds of interesting peripherals, at $1.03USD in single unit quantities... Brings new meaning to "cheap as chips"!
+
+Then, there were a few sundry pieces to track down based on what we have on hand in Dunedin - some FETs for switching the LEDs, a linear regulator to power the microcontroller, etc. Those all came from one vendor on aliexpress - total for 400 LEDs (I don't know if they'll want red or green, so got 200 of each), current limiting resistors, a hundred-odd transistors (need 9 per digit) and regulators (1 per digit), a spare Arduino clone just in case:
+
+![Aliexpress summary page - total 16.21USD]({{ site.url }}/media/20170415-aliexpress.png).
+
+Once the parts were picked out, it was off to KiCad (by way of github to start a new repo) to start drawing. The microcontroller and voltage regulator I picked weren't in the part library, so those took a few minutes to add. It could be my imagination, but I think the workflow for adding parts has gotten just a little easier - still certainly room for improvement, but not bad!
+
+The board is fairly straightforward, I'm impressed by how simple the SAMD10 interface seems so far - very few external components or connections are required. There are just a few sections to the schematic:
+
+  * The PCB will be split in to three pieces; each has 6x 5mm LEDs, and is one of 7 segments needed to make a digit.  One of the three pieces of each PCB can optionally be populated with the controller for its digit.
+  * Power is supplied (from a 6V battery) through a connector and reverse-polarity-protection diode.
+  * Since we might be interfacing with a 3.3V or a 5V Arduino, and I was placing jellybean FETs anyways, there's a proper I2C level shifter.
+  * LED segments are driven via FETs, with the gates pulled down just to prevent flickering or whatever on powerup.
+  * Six of the gate lines for the LED drivers are also used on startup to read 3 jumpers, to set the I2C slave address of the segment. That way, we can have up to 8 of the digits connected to the same I2C bus.
 
 Power Supply
 ---
-Our scoreboard will need to work from battery power, for a few hours per charge.
+Our scoreboard will need to work from battery power, for a few hours per charge. It takes ~6V DC input, and will draw about 20mA per string of LEDs, of which there could be up to 84 illuminated, so that's roughly 1.75A at "full noise". Current thinking is that a smallish 6V "gell cell" will be a good bet.
