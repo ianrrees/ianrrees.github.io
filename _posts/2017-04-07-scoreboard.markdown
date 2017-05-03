@@ -37,6 +37,7 @@ If each digit is self contained as in point 3, then that opens up possibilities 
 
 Components
 ===
+
 The Board
 ---
 A happy coincidence happened with this project last week. D and I had briefly discussed this scoreboard idea before, but hadn't made time to sit down and think about it too much. D and the guys were on the way down to VCW to finish up their 555 projects, but had been waylaid at the last minute.
@@ -70,6 +71,10 @@ The board is fairly straightforward, I'm impressed by how simple the SAMD10 inte
   * Since we might be interfacing with a 3.3V or a 5V Arduino, and I was placing jellybean FETs anyways, there's a proper I2C level shifter.
   * LED segments are driven via FETs, with the gates pulled down just to prevent flickering or whatever on powerup.
   * Six of the gate lines for the LED drivers are also used on startup to read 3 jumpers, to set the I2C slave address of the segment. That way, we can have up to 8 of the digits connected to the same I2C bus.
+
+Firmware
+---
+My plan is to make the firmware that runs in the microcontroller for each digit, and have the pact folks make the Arduino program that controls the whole scoreboard. It'll be a while until the PCBs for the digits are ready though, and I guess it will take them a few weeks to get the Arduino program working satisfactorily. So, I wanted a way to simulate the scoreboard in the mean time. This weekend, I put together a little Arduino program to drive an I2C-connected LCD using an interface like the digits will probably provide: [source](https://github.com/ianrrees/scoreboard-firmware/tree/master/i2c_lcd_mockup).
 
 Power Supply
 ---
