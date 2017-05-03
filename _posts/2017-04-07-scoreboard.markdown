@@ -54,23 +54,28 @@ The [Printed Circuit] Boards
 ---
 The PCB design files live in [their own repo](https://github.com/ianrrees/scoreboard-hardware).
 
-[Dirty PCBs](http://dirtypcbs.com/), my go-to supplier of such things, has really good pricing on "proto packs" of approximately 10 10x10cm 2-sided PCBs, so I'd like to keep our design in that envelope. There will be 28 segments required, so if we're lucky, a single protopack might work with ~3x10cm average size per segment.
+[Dirty PCBs](http://dirtypcbs.com/), my go-to supplier of such things, has really good pricing on 10x 2-sided PCBs that fit within 10x10cm, so I'd like to keep our design in that envelope. There will be 28 segments required, so a pack of 10 boards will work if it can be broken in to ~3x10cm per segment.
 
-Easter weekend, I spent a few hours on the circuit design, and have a first cut of the schematic drawn up. The workflow was fairly straightforward - I went to Digikey and searched for ARM M0+ microcontrollers, in stock, quantity 10, sort by price. ATSAMD10C13A-SSNT was the winner. That's a 48MHz 32 bit computer, with all kinds of interesting peripherals, at $1.03USD in single unit quantities... Brings new meaning to "cheap as chips"!
+Easter weekend, I spent a few hours on the circuit design, and had a first cut of the schematic drawn up. The workflow was fairly straightforward - I went to Digikey and searched for ARM M0+ microcontrollers, in stock, quantity 10, sort by price. ATSAMD10C13A-SSNT was the winner. That's a 48MHz 32 bit computer, with all kinds of interesting peripherals, at $1.03USD in single unit quantities... Brings new meaning to "cheap as chips"!
 
 Then, there were a few sundry pieces to track down based on what we have on hand in Dunedin - some FETs for switching the LEDs, a linear regulator to power the microcontroller, etc. Those all came from one vendor on aliexpress - total for 400 LEDs (I don't know if they'll want red or green, so got 200 of each), current limiting resistors, a hundred-odd transistors (need 9 per digit) and regulators (1 per digit), a spare Arduino clone just in case:
 
 ![Aliexpress summary page - total 16.21USD]({{ site.url }}/media/20170415-aliexpress.png).
 
-Once the parts were picked out, it was off to KiCad (by way of github to start a new repo) to start drawing. The microcontroller and voltage regulator I picked weren't in the part library, so those took a few minutes to add. It could be my imagination, but I think the workflow for adding parts has gotten just a little easier - still certainly room for improvement, but not bad!
+Once the parts were picked out, it was off to KiCad (by way of github to start a new repo) to start drawing. The microcontroller and voltage regulator I picked weren't in the part library, so those took a few minutes to add. It could be my imagination, but I think the workflow for adding parts has gotten just a little easier - still certainly room for improvement, but not bad! The layout has been done in fits and spurts over the last week or two, with occasional small changes to the schematic, and I finally ordered some boards 3 May.
 
-The board is fairly straightforward, I'm impressed by how simple the SAMD10 interface seems so far - very few external components or connections are required. There are just a few sections to the schematic:
+The PCB design is fairly straightforward, I'm impressed by how simple the SAMD10 interface seems so far - very few external components or connections are required. There are just a few sections to the schematic:
 
   * The PCB will be split in to three pieces; each has 6x 5mm LEDs, and is one of 7 segments needed to make a digit.  One of the three pieces of each PCB can optionally be populated with the controller for its digit.
-  * Power is supplied (from a 6V battery) through a connector and reverse-polarity-protection diode.
-  * Since we might be interfacing with a 3.3V or a 5V Arduino, and I was placing jellybean FETs anyways, there's a proper I2C level shifter.
+  * Power is supplied (from a 6V battery) through a connector and reverse-polarity-protection FET, and regulated to 3.3V for the microcontroller with a linear regulator.
+  * Since we might be interfacing with a 3.3V or a 5V controller, and I was placing jellybean FETs anyways, there's a proper I2C level shifter.
   * LED segments are driven via FETs, with the gates pulled down just to prevent flickering or whatever on powerup.
-  * Six of the gate lines for the LED drivers are also used on startup to read 3 jumpers, to set the I2C slave address of the segment. That way, we can have up to 8 of the digits connected to the same I2C bus.
+  * Six of the gate lines for the LED drivers are also used on startup to read 3 solder jumpers, to set the I2C slave address of the segment. That way, we can have up to 8 of the digits connected to the same I2C bus.
+  * There's a "heartbeat" LED - a trick I picked up at an old job. The heartbeat is slowly blinked continuously. It helps with troubleshooting - if the heartbeat is going, then you know at a glance that the microcontroller has power and a clock. This one was a little more tricky to implement than usual, since I'm sharing the microcontroller's SWCLK programming pin with the LED. It'll be important to make sure the firmware waits a few seconds at startup before setting that pin to output mode, otherwise it would be easy to "brick" the chip since it won't be programmable when the pin is an output.
+
+The boards will hopefully look something like this:
+
+![Top side of PCB rendered]({{ site.url }}/media/20170503-scoreboard-pcb-front.png).
 
 Firmware
 ---
