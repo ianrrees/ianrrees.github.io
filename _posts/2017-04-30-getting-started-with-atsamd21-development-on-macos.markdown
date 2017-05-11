@@ -10,9 +10,8 @@ This morning, I set out to finish off the design of the [VCW scoreboard](http://
 To finish that, I needed to know if it's OK to hook other stuff on to the SWCLK line - specifically a "heartbeat" LED that I tend to add to designs with microcontrollers in them (it's nice to be able to see if the CPU is ticking over).
 I have an Adafruit Feather M0 Express, which uses a similar ATSAMD21G microcontroller, so I figured the best thing to do was try a similar circuit with it!
 
-But, I'm using the scoreboard project as a sort of test case for working with these little ARM chips - this would be my first foray in to SWD.
+But, I'm using the scoreboard project as a sort of test case for hobby projects with little ARM chips - this would be my first foray in to SWD.
 Using my Bus Blaster v4 for SWD required changing its "buffer logic", which was a little bit of a mission in and of itself - mainly in finding the actual buffer logic file.
-
 Then, to really test the SWD, one needs an image or two to load...
 
 ## General requirements
@@ -60,7 +59,6 @@ So, we'll take the easy road and use [Homebrew](https://brew.sh/)!
 ```
 $ brew tap osx-cross/arm
 $ brew install arm-gcc-bin
-$
 ```
 
 When this is done, you'll have a gcc and friends available as arm-none-eabi-gcc, which can target the ARM M0+:
@@ -71,7 +69,6 @@ arm-none-eabi-gcc (GNU Tools for ARM Embedded Processors 6-2017-q1-update) 6.3.1
 Copyright (C) 2016 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-$
 ```
 
 ### Hello World
@@ -120,7 +117,6 @@ ARM/GNU C Compiler
 "arm-none-eabi-size" "AtmelStart.elf"
    text	   data	    bss	    dec	    hex	filename
     620	      0	   8224	   8844	   228c	AtmelStart.elf
-$
 ```
 
 ### OpenOCD configuration
@@ -198,10 +194,10 @@ Once all the requirements above are accounted for, you should be able to hook up
 
 ## Miscellaneous 
 
-The original bootloader for the Adafruit Feather M0 boards can be found at https://learn.adafruit.com/proper-step-debugging-atsamd21-arduino-zero-m0/restoring-bootloader
+The original bootloader for the Adafruit Feather M0 boards can be found at [https://learn.adafruit.com/proper-step-debugging-atsamd21-arduino-zero-m0/restoring-bootloader](https://learn.adafruit.com/proper-step-debugging-atsamd21-arduino-zero-m0/restoring-bootloader).
 
 Before I realised someone had made an ARM gcc package for Homebrew, I was trying to build the cross compiler with crosstool-ng.
-I wasn't successful on this front, because there's a flag that needs to get set in the step where newlib is compiled (\_\_thumb2\_\_ needs to be defined), but I couldn't figure out how to make the crosstool-ng environment do it.
+I wasn't successful on this front, because there's a flag that needs to get set in the step where newlib is compiled (\_\_thumb2\_\_ needs to be defined), but I couldn't see how to easily make the crosstool-ng environment do it.
 At any rate, the settings for crosstool-ng that I was working with, starting from `$ ct-ng arm-unknown-eabi` were fairly straightforward:
 
   * Emit assembly for CPU: cortex-m0plus
