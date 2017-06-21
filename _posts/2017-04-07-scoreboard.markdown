@@ -12,11 +12,19 @@ Project Goals
 ---
 First and foremost, we want a project that is easy to solder together, involves some steps that require a bit less fine motor control than soldering, and that will result in something interesting. Secondary to those goals, we want a functioning scoreboard.
 
-As the guys cleaned off the old signs, I stuck a few 5mm LEDs on a piece of junk PCB, and hooked them up to a battery so we could figure out what an appropriate spacing will be. My initial thought was that 4 LEDs for each segment would look good, but we ended up deciding on 6.
+As the guys cleaned off the old signs, I stuck a few 5mm LEDs on a piece of junk PCB, and hooked them up to a battery so we could figure out an appropriate spacing between LEDs.
+My initial thought was that 4 LEDs for each segment would look good, but we ended up deciding on 6 LEDs per segment.
+We also came to the conclusion that 2 digits for each team would be fine, so that means 4 digits * 7 segments/digit * 6 LEDs/segment = 168 LEDs.
+
+After some talking and thinking, I came to the conclusion that it would be good for the "business logic" of the scoreboard to be done in the Arduino environment, since that would provide a good learning environment.
+At the same time, I don't think it would be great to have each segment be controlled directly by Arduino - too many wires to get mixed up, and the Arduino code might get a little too complex.
+I settled on an architecture with the Arduino handling the buttons and driving each digit, which is in turn controlled by a small ARM microprocessor.
+
 
 Personal Goals
 ---
-I spend a lot of my work time reading embedded and application level code, thinking about electronics, occasionally making things work. So, while in some sense this is just a "toy project", there are a few things I'd like to accomplish with it:
+I spend a lot of my work time reading embedded and application level code, thinking about electronics, occasionally making things work.
+So, while in some sense this is just a "toy project", there are a few things I'd like to accomplish with it:
 
   * For personal projects involving microcontrollers, I've been using AVRs since I moved on from the BASIC Stamp a decade or so ago. I'd like to get my personal toolchain moved over to ARM. While I've used some mid size ARM chips for work projects, and the BeagleBone for hobby projects, the modern ~$1 ARM micros are new to me.
   * Another project could use for a little I2C slave to UART bridge.
@@ -27,11 +35,11 @@ Big Picture Considerations
 At the moment, this section is a bit of a brain-dump of considerations that I want to incorporate in the final design.
 
 1. I like the idea of driving the finished project through an Arduino Uno compatible board - Paul has been distributing them to kids around Dunedin as part of a kit, and I think this project could provide a good talking point for what's easy to do with Ardunio.
-2. Most of the soldering needs to be through-hole, and the PCBs need to have clear silkscreening that's easy to read.
+2. Most of the soldering needs to be through-hole, and the PCBs need to have silkscreening that's easy to read.
 3. Wiring needs to be simple. Given the scale of the display, I imagine that we'll have a PCB per segment, but I think running a pair of wires from each of 28 segments to a central controller would be a bit too tedious. So, my current thinking is to make each digit more-or-less self contained.
-4. The finished scoreboard should be reasonably durable.
-5. It should run off a rechargeable battery.
-6. The 3D printers at makerspace are quite popular, perhaps we could use them for some parts of the project.
+4. The finished scoreboard should be reasonably durable, as it'll be transported to the basketball court where it's used.
+5. Expanding on 4 - it should run off a rechargeable battery.
+6. The 3D printers at makerspace are quite popular, perhaps we could use them for some parts of the project?
 
 If each digit is self contained as in point 3, then that opens up possibilities for other permutations of the same design. For example, a traffic light could be constructed from similar components.
 
@@ -79,8 +87,25 @@ The boards will hopefully look something like this:
 
 Firmware
 ---
-My plan is to make the firmware that runs in the microcontroller for each digit, and have the pact folks make the Arduino program that controls the whole scoreboard. It'll be a while until the PCBs for the digits are ready though, and I guess it will take them a few weeks to get the Arduino program working satisfactorily. So, I wanted a way to simulate the scoreboard in the mean time. This weekend, I put together a little Arduino program to drive an I2C-connected LCD using an interface like the digits will probably provide: [source](https://github.com/ianrrees/scoreboard-firmware/tree/master/i2c_lcd_mockup).
+I made the firmware that runs in the microcontroller for each digit, and plan to have have the pact folks make the Arduino program that controls the whole scoreboard.
+It took a while for the PCBs for the digits to arrive, and I guess it will still be a few weeks before the Arduino program is working satisfactorily.
+So, I wanted a way to simulate the scoreboard in the mean time, and put together a little Arduino program to drive an I2C-connected LCD using an interface like the digits will provide: [source](https://github.com/ianrrees/scoreboard-firmware/tree/master/i2c_lcd_mockup).
+
+The first cut of [the firmware](https://github.com/ianrrees/scoreboard-firmware) seems to work well, in the limited testing I've done so far.
+My learning curve with Atmel/Microchip's START platform wasn't too steep, though I think it's a bit too heavy for my usage but still required a bit of hackery to get one of my side projects (the I2C slave - UART bridge mentioned in [Personal Goals](#Personal Goals) to work properly.
+
+As a tangental rant - I think the goal of a nice cross-platform toolkit for embedded systems is a noble one, but probably the effort on the really low level stuff would be better spent on documentation for the hardware.
+It seems like every time I encounter a library like the ASF, I end up needing to make modifications to either it, which defeats the purpose a bit...
 
 Power Supply
 ---
-Our scoreboard will need to work from battery power, for a few hours per charge. It takes ~6V DC input, and will draw about 20mA per string of LEDs, of which there could be up to 84 illuminated, so that's roughly 1.75A at "full noise". Current thinking is that a smallish 6V "gell cell" will be a good bet.
+Our scoreboard will need to work from battery power, for a few hours per charge. It takes ~6V DC input, and will draw about 20mA per string of LEDs, of which there could be up to 84 illuminated, so that's roughly 1.75A at "full noise". Current thinking is that a smallish 6V "gell cell" will be a good bet, with an off-the-shelf charger.
+
+Initial Assembly
+---
+Somewhat surprisingly, the first PCB design results in a working segment!
+I assembled the first control segment and one of the controlled segments at home and used them for the first round of firmware development.
+There are a few issues with the original design, which I might get around to fixing at some point down the line if anyone is interested in making another one of these:
+
+  * The Tag-Connect footprint is a bit too close to the IIC and input power connectors
+  * I'm not super happy with my solder jumper footprint, it seems to take either a fair amount of solder or encouragement to bridge and look nicely. It would probably work better if the dividing line between the two pads were longer, maybe more like an (angular?) yin and yang symbol.
