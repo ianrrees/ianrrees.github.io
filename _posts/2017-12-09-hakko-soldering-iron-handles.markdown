@@ -4,7 +4,7 @@ title: "Hakko Soldering Iron Handles"
 categories:
 ---
 
-Following up on a previous post about [modifying the FX-888]{{ site.baseurl }}{% post_url 2017-03-13-fx-888-led-mod %} - I've upgraded my soldering station to a Hakko FX-951. The main motivation for the upgrade was my work on tiny Accutron coils; the FX-951 has both better tips available, and more handle options including a very fine one, and another with off-the-shelf support for inert gas soldering.
+Following up on a previous post about [modifying the FX-888](http://ianrrees.github.io/2017/03/13/fx-888-led-mod.html) - I've upgraded my soldering station to a Hakko FX-951. The main motivation for the upgrade was my work on tiny Accutron coils; the FX-951 has both better tips available, and more handle options including a very fine one, and another with off-the-shelf support for inert gas soldering.
 
 The bases are obviously a bit different between the FX-888, and the FX-951; with the first being more of a technician or high end hobby tool, and the latter being a production tool. I prefer the analogue dial on the 888 to the pushbuttons on the 951, and would rather not have to deal with the key card on the 951, but the 951 fits better in my bench. The FX-951 system also adds a switch to the iron holder, which puts the iron to sleep to save tips.
 
