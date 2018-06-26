@@ -6,7 +6,7 @@ categories:
 
 Graphics on PCBs aren't a new thing by any stretch, but typically they're rather geometric and simple monochromes. For a recent board, I spent a little time fiddling around with a process to create decent-looking halftone-ish PCB layers from a raster image:
 
-![God's hand from Birth of Adam, pushing phone buttons]({{ site.url }}/media/20180620-halftone-pcb-back.png)
+![PCB with screenprint of god's hand from Birth of Adam, pushing phone buttons]({{ site.url }}/media/20180620-halftone-pcb-back-photo.jpg)
 
 To create that, I started with a greyscale graphic in GIMP (convert it from colour by using Colors->Desaturate... then Image->Mode->Greyscale), then used Filters->Distorts->Newsprint... . There are several settings that might need adjusting in the Newsprint dialog, mainly the cell size:
 ![Screenshot showing GIMP with halftone image]({{ site.url }}/media/20180620-halftone-in-gimp.png)
@@ -24,7 +24,10 @@ Finally, to add the footprint to a PCB, ensure the library mentioned in the prev
 
 ---
 
-There's a bit of room for improvement in this process. The halftone image would ideally be a pattern of simple shapes; circles or maybe diamonds, which could be directly described in the [Gerber format](https://en.wikipedia.org/wiki/Gerber_format) or .kicad_mod much more efficiently. The approach described above will result in a whole bunch of polygons, with some quite small. Here's a closeup of one of the "dots" in the above footprint:
+There's a bit of room for improvement in this process:
+
+First - the halftone image would ideally be a pattern of simple shapes; circles or maybe diamonds, which could be directly described in the [Gerber format](https://en.wikipedia.org/wiki/Gerber_format) or .kicad_mod much more efficiently. The approach described above will result in a whole bunch of polygons, with some quite small. Here's a closeup of one of the "dots" in the above footprint:
 
 ![Closeup of halftone dot/polygon]({{ site.url }}/media/20180620-halftone-dot-closeup.png)
 
+Second - I haven't confirmed this with measurements, but it appears that the silk screening ink (which I believe is coming from a printer, not an actual silk screen, for these short-run PCBs) spreads a little bit. This means the smaller dots in particular, are physically larger than they appear in the digital file.
