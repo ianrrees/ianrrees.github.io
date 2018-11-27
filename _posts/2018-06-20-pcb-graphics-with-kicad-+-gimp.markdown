@@ -4,6 +4,8 @@ title: "PCB graphics with KiCad + GIMP"
 categories:
 ---
 
+**Update!** I made [a little utility to do this](https://github.com/ianrrees/kicad_halftone), as an exercise to learn some Rust.
+
 Graphics on PCBs aren't a new thing by any stretch, but typically they're rather geometric and simple monochromes. For a recent board, I spent a little time fiddling around with a process to create decent-looking halftone-ish PCB layers from a raster image:
 
 ![PCB with screenprint of god's hand from Birth of Adam, pushing phone buttons]({{ site.url }}/media/20180620-halftone-pcb-back-photo.jpg)
@@ -26,7 +28,7 @@ Finally, to add the footprint to a PCB, ensure the library mentioned in the prev
 
 There's a bit of room for improvement in this process:
 
-First - the halftone image would ideally be a pattern of simple shapes; circles or maybe diamonds, which could be directly described in the [Gerber format](https://en.wikipedia.org/wiki/Gerber_format) or .kicad_mod much more efficiently. The approach described above will result in a whole bunch of polygons, with some quite small. Here's a closeup of one of the "dots" in the above footprint:
+First - the halftone image would ideally be a pattern of simple shapes; circles or maybe diamonds, which could be directly described in the [Gerber format](https://en.wikipedia.org/wiki/Gerber_format) or .kicad_mod much more efficiently (see update at top). Using GIMP and the KiCad bitmap utility will result in a whole bunch of polygons, with some quite small. Here's a closeup of one of the "dots" in the above footprint:
 
 ![Closeup of halftone dot/polygon]({{ site.url }}/media/20180620-halftone-dot-closeup.png)
 
