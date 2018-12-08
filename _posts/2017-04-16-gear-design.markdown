@@ -4,6 +4,8 @@ title: "Gear Design"
 categories:
 ---
 
+Notes on CAD of gears.
+
 !["Gear Geometry and Applied Theory" and "Practical Gear Design" on the coffee table]({{ site.url }}/media/20170416-gear-books.jpg)
 
 For some time, I've had a passive interest in gear design; it's a field that I've hardly had anything to do with, but which appears to involve a neat intersection between math, materials, and practicality. Gears are used in all sorts of day-to-day things, and vary quite a lot, but the design of them still seems a bit mysterious.
