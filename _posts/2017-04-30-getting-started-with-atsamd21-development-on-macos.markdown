@@ -19,7 +19,7 @@ Starting from the "high level", we need:
 
   1. ASF library
   2. gcc and friends, built to target Cortex M0+
-  3. A compiled program to load
+  3. A program to load, compiled by #2
   4. OpenOCD configuration files appropriate for the Bus Blaster v4 with the SWD logic, and your board
   5. Bus Blaster v4 with the KT-link "Buffer Logic" loaded so it supports SWD
   6. SWD and power connections to the microcontroller
