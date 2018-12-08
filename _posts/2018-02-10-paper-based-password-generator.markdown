@@ -10,6 +10,6 @@ The notebook was inspired by a talk on [Bullet Journalling](http://bulletjournal
 
 This notebook seems like a great place to keep passwords, except the obvious problem of the notebook going missing (or, being photographed, if you're paranoid). Previously, when I've written down passwords I've just kept them near my computer - figuring that physical access is full access anyways. But, this notebook is much more on-the-go, and I suppose more likely to get lost. A lost notebook wouldn't be so much of an issue though, if the passwords were written down in an encrypted or obfuscated way.
 
-So, I came to want a grid of random characters, and ended up writing [a little Python program]({{ site.url }}/media/makepad.py) to generate exactly that:
+So, I came to want a grid of random characters, and ended up writing [a little Python program]({{ site.url }}/media/makepad.py)([view on github](https://github.com/ianrrees/ianrrees.github.io/blob/master/media/makepad.py)) to generate exactly that:
 
 ![Notebook page with grid of random characters]({{ site.url }}/media/20180210-random-characters.jpg)
