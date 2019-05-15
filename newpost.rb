@@ -22,5 +22,5 @@ File.open(post, 'w') do |f|
   f << header
 end
 
-system("open", post)
+system("xdg-open", post)
 system("git", "add", post)
