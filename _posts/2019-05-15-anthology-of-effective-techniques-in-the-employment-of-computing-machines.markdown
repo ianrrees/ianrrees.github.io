@@ -14,6 +14,17 @@ Sometimes though, I'm only looking for a particular type of message. For instanc
 
 Infinite command line history
 ===
-I've found it handy to configure bash's command history to be infinitely long; in conjunction with the history search offered by `Ctrl+r`, this helps compensate for my lousy memory. Unfortunately, it's not quite as straightforward as one might hope; see [the answer by fotinakis](https://stackoverflow.com/a/19533853/10328027) for a more thorough explanation.
+I've found it handy to configure bash's command history to be infinitely long; in conjunction with the history search offered by mapping `fzf` to `Ctrl+r`, this helps compensate for my lousy memory. Unfortunately, it's not quite as straightforward as one might hope; see [the answer by fotinakis](https://stackoverflow.com/a/19533853/10328027) for a more thorough explanation.
 
 Basically, you want `HISTSIZE=` and `HISTFILESIZE=` in your `.bashrc` (any other setting of those to be removed, including in the same file), and set your `HISTFILE=~/.bash_eternal_history` or similar non-default name. Otherwise, some scenarios can result in your long history being unintentionally nuked.
+
+Handy, and perhaps not obvious, command line tools
+===
+#### Commonly bundled with *NIX-style operating systems
+
+  * `watch` runs the specified command over and over again, updating the output on the screen as it does.
+
+#### Might need to be installed separately
+
+  * `fzf` Fuzzy search for your shell; makes the command line history search from `Ctrl+r` particularly nice.
+  * `tmux` I mainly use as an upgraded version of `screen`, for running commands that I want to put in the background (my work VPN client) and for SSH sessions that should persist even if the connection fails.
