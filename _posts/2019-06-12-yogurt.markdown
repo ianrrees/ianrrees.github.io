@@ -1,0 +1,33 @@
+---
+layout: post
+title: "Yogurt"
+categories:
+---
+
+I go through a liter of so of yogurt each week, and it has generally come from the supermarket in kilogram plastic tubs.
+While these packages are recyclable, and it's handy to have a few tubs around for storing paint or hardware, I would clearly prefer to reduce use of single-use containers.
+I'm also a fan of spending less money.
+Recently, I've found a neat way to spend less money, generate less waste, and play in the kitchen: make yogurt!
+
+The key "thing" involved in this great leap forward was an [Easiyo](https://www.easiyo.com/); they're available in the local supermarkets for about $25 (all the prices here in NZD) or, for a fraction of that amount in the local op-shop.
+The Easiyo is simply an insulated bottle, sized to fit a 1L yogurt container along with a liter of warm water and some air - it's certainly not necessary to have one to make yogurt, but I'd have a hard time beating it for the $4 it cost me, and it works really well.
+There are two different sorts of Easiyo makers available; the new one has a shorter yogurt container with more curvy sides than the old one - the new containers (more commonly available in the supermarket) fit fine in the older style insulated part (more commonly available in thrift stores).
+I haven't experimented too much with flavourings yet, but there's gobs of information on this stuff online.
+
+The basic process is simple:
+
+  1. In the yogurt container, mix a little less than a liter of milk at about 20C (perhaps with flavour added) to a bit of the previous batch of yogurt
+  2. Put a liter of boiling water in the yogurt maker
+  3. Put the bottle of nascent yogurt in the yogurt maker
+  4. Add lid
+  5. Wait for 9ish hours
+
+My current preferred source of milk is a local dairy, where I can get a liter of pasteurised but not homogenised full cream milk for $3.50, in an exchanged glass bottle.
+According to a brief look around the usual sources, that's not quite the cheapest, but it does hit my sweet spot for waste/cost/quality:
+
+| Source             | Cost/L | Waste                   |
+|--------------------|--------|-------------------------|
+| Yoplait            | $5.50  | 43.5g polypropylene tub |
+| Yogurt mix packets | $5     | 5.9g foil/plastic bag   |
+| Local dairy        | $3.50  | Steel bottlecap         |
+| Milk powder        | $2.25  | TBD foil/plastic bag    |
