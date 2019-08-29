@@ -28,3 +28,17 @@ Handy, and perhaps not obvious, command line tools
 
   * `fzf` Fuzzy search for your shell; makes the command line history search from `Ctrl+r` particularly nice.
   * `tmux` I mainly use as an upgraded version of `screen`, for running commands that I want to put in the background (my work VPN client) and for SSH sessions that should persist even if the connection fails.
+
+Git aliases
+===
+If you frequently use git from the command line, you might find git's alias feature helpful.  In my ~/.gitconfig, I have:
+
+```
+[alias]
+        cof = !git for-each-ref --format='%(refname:short)' refs/heads | fzf | xargs git checkout
+        newbranch = !git checkout -b $(date +"%Y%m%d")-$1 && :
+```
+
+`git cof` launches a nice fzf-powered branch picker, then checks out the selected branch (from a [HN comment](https://news.ycombinator.com/item?id=20361377)).
+
+`git newbranch my-branch` makes a new branch, prepended with today's date in the form YYYYMMDD. The trailing `&& :` is the secret sauce here; without it the alias would expand to `git checkout -b YYYYMMDD-my-branch my-branch`, which fails because my-branch doesn't yet exist in the git repo.
