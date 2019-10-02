@@ -15,7 +15,7 @@ Anyway, I've learned a few things from the book that will be applied to future p
 
 ---
 
-All this thinking about PCB design reminded me about project that's been on the TODO list for some time - the "Jim Williams Pulser", so named because it was popularised by [AN47](www.linear.com/docs/4138) - also a great read.
+All this thinking about PCB design reminded me about project that's been on the TODO list for some time - the "Jim Williams Pulser", so named because it was popularised by [AN47](http://www.linear.com/docs/4138) - also a great read.
 It's a really simple circuit that cleverly drives a bipolar transistor in to avalanche breakdown, to produce incredibly fast (few hundred picosecond, tens of volts) rising edges.
 
 One of the main applications of the circuit, indeed the reason it was included in AN47, is for measuring the system bandwidth of an oscilloscope + probe combination.
