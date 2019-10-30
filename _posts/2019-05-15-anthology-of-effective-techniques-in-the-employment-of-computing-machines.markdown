@@ -42,3 +42,12 @@ If you frequently use git from the command line, you might find git's alias feat
 `git cof` launches a nice fzf-powered branch picker, then checks out the selected branch (from a [HN comment](https://news.ycombinator.com/item?id=20361377)).
 
 `git newbranch my-branch` makes a new branch, prepended with today's date in the form YYYYMMDD. The trailing `&& :` is the secret sauce here; without it the alias would expand to `git checkout -b YYYYMMDD-my-branch my-branch`, which fails because my-branch doesn't yet exist in the git repo.
+
+Safer shell command substitution
+===
+
+A quick one I figured out for use with [ttynamed](https://github.com/ianrrees/ttynamed): if you're in the habit of using the classic ```$ some_command `other_command` ```, or the safer `$ some_command "$(other_command)"`, there could be problems if `other_command` fails without writing anything to stdout, causing `some_command` to run without an argument. To prevent `some_command` from running when `other_command` fails, use a construct like:
+
+```
+$ temp=$(other_command) && some_command $temp
+```
