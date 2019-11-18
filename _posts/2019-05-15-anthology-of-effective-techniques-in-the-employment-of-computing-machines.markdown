@@ -27,6 +27,7 @@ Handy, and perhaps not obvious, command line tools
 #### Might need to be installed separately
 
   * `fzf` Fuzzy search for your shell; makes the command line history search from `Ctrl+r` particularly nice.
+  * `rg` [Ripgrep](https://github.com/BurntSushi/ripgrep) is a great upgrade from grep, not least because it's much faster when searching over lots of files.
   * `tmux` I mainly use as an upgraded version of `screen`, for running commands that I want to put in the background (my work VPN client) and for SSH sessions that should persist even if the connection fails.
 
 Git aliases
@@ -51,3 +52,8 @@ A quick one I figured out for use with [ttynamed](https://github.com/ianrrees/tt
 ```
 $ temp=$(other_command) && some_command $temp
 ```
+
+Other resources
+===
+
+[The Lost Art of Structure Packing](http://www.catb.org/esr/structure-packing/) is a very nicely done page on C structures.
