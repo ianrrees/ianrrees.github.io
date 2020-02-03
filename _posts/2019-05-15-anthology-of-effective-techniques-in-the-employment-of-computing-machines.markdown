@@ -30,6 +30,22 @@ Handy, and perhaps not obvious, command line tools
   * `rg` [Ripgrep](https://github.com/BurntSushi/ripgrep) is a great upgrade from grep, not least because it's much faster when searching over lots of files.
   * `tmux` I mainly use as an upgraded version of `screen`, for running commands that I want to put in the background (my work VPN client) and for SSH sessions that should persist even if the connection fails.
 
+Shell aliases
+===
+In my home directory is a subdirectory called Company, where I keep files for the work I do for Company; this gives a `cd` workalike, relative to that:
+```
+function ccd {
+    cd "$HOME/Company/$1"
+}
+```
+
+Here's one of my favourites - a simple function that makes a directory then changes in to it:
+```
+function mkcd {
+    mkdir "$1" && cd "$1"
+}
+```
+
 Git aliases
 ===
 If you frequently use git from the command line, you might find git's alias feature helpful.  In my ~/.gitconfig, I have:
