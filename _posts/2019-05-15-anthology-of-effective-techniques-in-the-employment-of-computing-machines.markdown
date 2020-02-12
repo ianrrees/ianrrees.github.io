@@ -46,9 +46,12 @@ function mkcd {
 }
 ```
 
-Git aliases
+git stuff
 ===
-If you frequently use git from the command line, you might find git's alias feature helpful.  In my ~/.gitconfig, I have:
+
+#### Aliases
+If you frequently use git from the command line, git's alias feature may be helpful.
+For instance, in my ~/.gitconfig, I have:
 
 ```
 [alias]
@@ -59,6 +62,29 @@ If you frequently use git from the command line, you might find git's alias feat
 `git cof` launches a nice fzf-powered branch picker, then checks out the selected branch (from a [HN comment](https://news.ycombinator.com/item?id=20361377)).
 
 `git newbranch my-branch` makes a new branch, prepended with today's date in the form YYYYMMDD. The trailing `&& :` is the secret sauce here; without it the alias would expand to `git checkout -b YYYYMMDD-my-branch my-branch`, which fails because my-branch doesn't yet exist in the git repo.
+
+#### Distinct configurations by repo path
+I use git for both personal and work projects, but don't want to mix my personal and work email addresses between those.
+The [conditional includes](https://git-scm.com/docs/git-config#_conditional_includes) feature in git configuration allows for overriding the email setting for any repos stored under ~/Company, leaving the personal address for the rest.
+
+In ~/.gitconfig:
+
+```
+[user]
+    name = My Name
+    email = my.name@personal.com
+
+[includeIf "gitdir:~/Company/"]
+    path = .gitconfig-work
+
+```
+
+And a 2-line ~/.gitconfig-work:
+
+```
+[user]
+    email = my.name@company.com
+```
 
 Safer shell command substitution
 ===
