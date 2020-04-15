@@ -39,10 +39,10 @@ function ccd {
 }
 ```
 
-Here's one of my favourites - a simple function that makes a directory then changes in to it:
+Here's one of my favourites - a simple function that makes a directory then changes in to it.  The ./ is subtle - it's to cover the case when there is a directory in the `CDPATH` environment that has the same name as the directory that `mkcd` is making:
 ```
 function mkcd {
-    mkdir "$1" && cd "$1"
+    mkdir "$1" && cd ./"$1"
 }
 ```
 
