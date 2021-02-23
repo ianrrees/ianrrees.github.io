@@ -27,3 +27,10 @@ fn u8_to_i8(input: u8) -> i8 {
     i8::from_ne_bytes(input.to_ne_bytes())
 }
 ```
+
+## Triggering a reset on Cortex-M parts
+Just a small thing, but the SCB peripheral has a static method for resetting the micro:
+``` Rust
+use cortex_m::peripheral::SCB;
+SCB::sys_reset();
+```
