@@ -28,7 +28,8 @@ Handy, and perhaps not obvious, command line tools
 
   * `fzf` Fuzzy search for your shell; makes the command line history search from `Ctrl+r` particularly nice.
   * `rg` [Ripgrep](https://github.com/BurntSushi/ripgrep) is a great upgrade from grep, not least because it's much faster when searching over lots of files.
-  * `tmux` I mainly use as an upgraded version of `screen`, for running commands that I want to put in the background (my work VPN client) and for SSH sessions that should persist even if the connection fails.
+  * `tmux` I started using as an upgraded version of `screen`, for running commands that I want to put in the background (my work VPN client) and for SSH sessions that should persist even if the connection fails, but have gradually used this more and more to replace having multiple terminal windows in my GUI.
+  * [bottom](https://github.com/ClementTsang/bottom) A cool update of the classic `top`
 
 Shell aliases
 ===
