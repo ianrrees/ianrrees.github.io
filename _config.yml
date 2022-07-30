@@ -1,8 +1,8 @@
 # Site settings
 title: Ian's blogosite
-email: ian.rees@gmail.com
+email: code@ianrees.nz
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://ianrrees.github.io/"
+url: "https://ianrrees.github.io/"
 
 # Sidebar settings
 description: Generalist tech-engineer guy
