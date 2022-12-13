@@ -10,6 +10,9 @@ Currently just a collection of notes, about a program I've thought about on-and-
 * Support storing data from any number of sources together in one file, also exporting data from individual streams like the traditional approach.
 * Where it makes sense, like serial ports, support bidirectional data flow (also logged).
 
+## Prior Art
+[lnav](https://lnav.org/) has a nice terminal UI, filtering.  Interesting database usage.
+
 ## Architecture
 * Uses a client-server architecture along the lines of tmux.
 * GUI provided via web server
@@ -92,6 +95,8 @@ Handling streams:
 
 ## GUI
 The [gdbgui](https://www.gdbgui.com) approach looks pretty nice, especially given the Rust GUI story so far.  Presumably this leaves room for a more traditional GUI app as well.
+
+GUI for manipulating filters has blocks, arrows can be dragged between them, terminals are just an output block.
 
 Clearly show the time-relationship between data sources.  Eg, should be able to select a block of text in one stream, and easily understand what was going on in other streams at the same time.
 
