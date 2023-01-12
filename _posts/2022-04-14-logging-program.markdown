@@ -101,3 +101,6 @@ GUI for manipulating filters has blocks, arrows can be dragged between them, ter
 Clearly show the time-relationship between data sources.  Eg, should be able to select a block of text in one stream, and easily understand what was going on in other streams at the same time.
 
 Indicate current log file size, provide for saving/loading/discarding/etc
+
+Columns could be added to the log output, which indicate state based on filtering logs or whatever.  For instance, if USB cable connectivity can be determined from the log items (if there are connection/disconnection events), there could be a column that shows whether cable is connected for each log item - 1/0/?.
+
