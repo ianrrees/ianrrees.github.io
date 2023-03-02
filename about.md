@@ -16,9 +16,11 @@ When I was little, I thought that Legos and Ninja Turtles were pretty cool, then
 Then I spent a long while fixing computers, making stoves from old beer cans, walking around, riding my bike, and pumping gas through big hoses.
 In 2011, I moved to Christchurch, New Zealand, and guessed earthquake magnitudes between testing and building power electronics.
 After that, my job changed to keeping computers happy so they could count neutrinos at the South Pole.
-Most recently I set off to build a robot army, but got distracted by making better open source tools for building said robot army.  I still think Legos are pretty cool.
+After that spent a little while working on open source CAD tools, then got a job doing mostly firmware type stuff with a local company.
+Later, I switched to my current fully-remote gig, which is mainly firmware for really tiny machines, and embedded Linux.
+I still think Legos are pretty cool.
 
-Some tools I like using are Python 3, C++11 (that's is changing as I get more experience with Rust), good soldering irons, lathes, tricams, wool socks, nice sharp flat files, and Husqvarna chainsaws.
+Some tools I like using are Python 3, Rust, good soldering irons, lathes, tricams, wool socks, nice sharp flat files, and battery-powered chainsaws.
 On the other hand, I can use Phillips screws, Bash scripts, hot glue guns, and Visual Studio even if I don't really like to.
 
 I'm a big fan of open source stuff; software, physical things, organisations, etc.  And, I'm a fan of robust local communities.  To that end, I spend some time keeping my local makerspace going, and occasionally help out a bit with [FreeCAD](https://freecadweb.org/).
