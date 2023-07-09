@@ -16,7 +16,7 @@ Several reasons pushed me to install a stationary EVSE, the most direct one was 
 The supply and demand of electricity changes continually, and that is reflected in the electricity billing here in NZ.  The details are out of scope, except to say that I currently pay for electricity based on the current spot price which changes every half hour, and can vary quite a lot.  Faster charging makes it easier to take advantage of cheaper power.  It is true that charging batteries faster can reduce their lifetimes, but those effects are closely related to battery temperature and only become significant at much higher charge rates - my stationary EVSE maxes out at about 7.5kW, where typical DC fast chargers around here are 25kW or 50kW and aren't considered particularly damaging to a Leaf battery at least in our temperate climate.
 
 ## What?
-I have an [OpenEVSE](https://www.openevse.com/)
+I have an [OpenEVSE](https://www.openevse.com/), which is wired and configured to provide 240V AC up to 32A to the car, and is connected to a home network via ethernet.
 
 ## How?
 

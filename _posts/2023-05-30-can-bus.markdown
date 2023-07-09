@@ -1,0 +1,47 @@
+---
+layout: post
+title: "CAN bus"
+categories:
+---
+
+Hacking on car stuff in the modern era nearly inevitably requires working with
+CAN bus.  My CAN adventures so far have been fairly sporadic over the years, but
+generally tedious, so I want to collect some notes here in the hopes that
+someone finds them useful.  My current focus is on using my Linux laptop to
+interact with CAN bus on a 2014 Nissan Leaf, and with a much smaller bus on my
+workbench connecting a few bits I've scavenged off a crashed Leaf.  More on that
+project in another post!
+
+## Nissan Leaf CAN buses
+The Leaf, at least the one I'm interested in, has a few different CAN buses,
+three are available on the OBDII port (below the steering wheel) including what
+are known as Car-CAN, EV-CAN, and AV-CAN.
+
+Car-CAN ("CAN communication circuit" in the Service Manual) is the
+general-purpose network, which most systems connect to.
+
+EV-CAN ("EV system CAN circuit" in the Service Manual) connects the battery
+controller, inverter, TCU (helpfully, in the Service Manual's Abbreviation list,
+TCU is said to stand for "TCU") - basically the high power stuff that makes the
+car go.  The EV-CAN connects to the Car-CAN via the VCM gateway.
+
+AV-CAN apparently has to do with the audiovisual system.
+
+## Host-CAN hardware
+Most inexpensive computer-to-CAN adapters seem to be based on the
+[ELM327](https://en.wikipedia.org/wiki/ELM327), or likely a clone of it.  I have
+tried using these connected to a smartphone or laptop via USB, WiFi, and
+Bluetooth.  Other than one Bluetooth ELM327 adapter, connected to an Android
+phone running LeafSpy, I have had very little success with the ELM327.  The
+limited bandwidth of the ELM327 was ultimately what drove me to a different
+adapter, it can't handle the traffic generated when the Leaf starts up.
+
+I've wound up using a CANable Pro board, bought from AliExpress, stuck in the
+enclosure from one of the disapointing ELM327 adapters.  This works with
+SocketCAN out of the box, and is capable of much higher bandwidth than ELM327.
+
+## Software
+[SocketCAN](https://en.wikipedia.org/wiki/SocketCAN) is a Linux technology which
+basically can provide a socket interface to CAN bus.  This is a very helpful
+layer of the stack, which allows a program to do stuff with CAN bus without
+needing a driver for every CAN adapter.
