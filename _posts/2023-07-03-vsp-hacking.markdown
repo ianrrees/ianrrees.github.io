@@ -15,6 +15,9 @@ This project scratches a few itches:
     engine" while stopped)
 
 ## Project Status
+
+![Workbench with hackily wired together circuit boards, animated blinking LED]({{ site.url }}/media/20230712-vsp-blink.gif)
+
 Currently, I'm pursuing a "software only" hack - the idea is to work out a way
 to reprogram the VSP computer installed in a Leaf, using a device plugged in to
 the OBDII diagnostic connector.  If this proves untenable, an alternative is to
@@ -25,20 +28,31 @@ CANable.  A hacky little program on my laptop talks with the CANable via
 SocketCAN, and can play back CANbus recordings from my Leaf, this causes the VSP
 to make Leaf sounds.  Well, it did, before I erased the flash in the VSP...
 
-A Renesas EZ-CUBE is wired up to the 78K0R debug interface, which can be driven
-from a Windows VM with Renesas' CS+ IDE for the same micros.  CS+ will also be
-helpful for generating 78K0R images from known code, which I'll use work out how
-to reverse engineer the Nissan firmware if/when it becomes available.
+A Renesas EZ-CUBE is wired up to the debug interface of the 78K0R micro which is
+the brains of the VSP.  The EZ-CUBE can be driven from a Windows VM with
+Renesas' CS+ IDE for the same micros.  The first time I tried using this setup
+to talk to the VSP micro, it wound up with a blank flash.  I'm not 100% sure
+what caused that to happen; it could have been operator error (CS+ is a bit
+weird), or it could be that a security setting in the micro triggered the erase
+because CS+ supplied the wrong password.  To be safe, I'm proceeding under the
+assumption that it was the latter.
 
-The first time I tried using CS+ and the EZ-CUBE to talk to the VSP micro, it
-wound up with a blank flash.  I'm not 100% sure what caused that to happen; it
-could have been operator error (CS+ is a bit weird), or it could be that a
-security setting in the micro triggered the erase because CS+ supplied the wrong
-password.
+Using CS+, I've made a simple firmware for the VSP that blinks the LED (the VSP
+mute indication, located on the dash switch), and spent some time tinkering with
+the debug interface security settings.  Encouragingly, CS+ and the EZ-CUBE have
+the ability to read out the "Code flash memory" -including the region used to
+store the debug password- even when the security settings are configured to
+blank the flash if there's a password mismatch!  That's with a known debug
+password, of course.
 
-My next plan is to create a simple blinkenlights firmware for the VSP, then try
-to work out what I did to cause the flash to blank, and how to avoid it
-happening next time.  In the mean time, I'm sourcing another VSP!
+The next step is to set up [78K0R Flash
+Leaker](https://github.com/AndrewGBelcher/78K0R_flash_leaker) (a glitching tool)
+to try to read out the password without triggering another erase.  In case the
+glitching attack yields the password and I'm able to extract the stock firmware
+from another VSP, I've saved a flash dump of a simple program to use as a test
+input to Ghidra.
+
+Finally, and luckily, I believe another VSP will be on the way soon!
 
 ## Theory of Operation
 The VSP system is fairly straightforward.  The computer lives just above
@@ -63,16 +77,17 @@ from the flash, all under the command of the 78K0R.
 
 ## TODO
   * Fill in documentation gaps
-    * Pinout of CN1
+    * Schematic of wiring harness
+    * Schematic of connections to the micro
   * If "software only" approach isn't feasible, identify a compatible connector
     for CN1
   * Read firmware out of VSP computer
   * How to reverse engineer firmwre blob?
-  * Figure out Yamaha audio chip interface/protocol.
+  * Figure out or find documentation of the Yamaha audio chip interface/protocol
 
 ## Hardware
 The VSP computer I'm using is Nissan part number 285N6-3NF0C, the PCB inside is
-labelled BZ-P5091B0E version 2.  The board is a typical 2-layer(?) affair,
+labelled BZ-P5091B0E version 2.  The board is a typical green fibreglass affair,
 there's a blue conformal coating over the IC pins, which seems to be silicone.
 
 IC402 is the main MCU, a Renesas μPD78F1834 aka 78K0R/FE3.  Labelled D78F1834
@@ -85,6 +100,9 @@ IC201 is the audio chip
 CN1 is the connector the car's wiring harness
 
 CN2 is a debug connector for IC402
+
+| Pin Number | Pin name | Description          |
+| 23         | P130     | LED (also reset out) |
 
 ## Decompiler
 Since we aim to reverse-engineer the firmware extracted from the VSP, we'll want
@@ -118,7 +136,7 @@ Vintage Renesas debug probes/emulators are fairly easy to find on sites like
 ebay and AliExpress, but most of the ones I identified are far too expensive for
 this project.  There's a discontinued probe called "EZ CUBE", available for
 about $40NZD on AliExpress, which is still a lot for what it is, but I bought
-one of those.
+one anyhow.
 
 The EZ-CUBE manual talks about loading firmware in to the probe before first
 use, and the probe requires a Windows driver that isn't installed by CS+.  So,
@@ -159,6 +177,11 @@ target system environment.".  SW-4 has label 'T' in one direction and '5' in the
 other, and sets the VDD pin to be either driven by +5V (presumably the USB
 positive rail), or powered by the target.  Since the 78K0R in the VSP runs on
 3.3V, we use 'T'.
+
+The manual describes a reset input to the EZ-CUBE, which I've left disconnected
+without noticing any issues, however pin 23 (which drives the indicator LED
+through a transistor) is labelled `RESOUT` so I suppose that's where it could be
+connected if required.
 
 ## Debug Interface Security
 Microcontrollers usually support some amount of security on their debug
@@ -229,7 +252,8 @@ password if the timing approach from the Toshiba BIOS series doesn't work.
 
 [Stack Exchange 78K0R disassembly
 question](https://reverseengineering.stackexchange.com/questions/2354/are-there-any-free-disassemblers-for-the-nec-78k0r-family-of-processors)
-- only a decade old!  Seems to be a way to get assemby out from a firmware binary.
+\- only a decade old!  Seems to be a way to get assemby out from a firmware
+binary.
 
 [ghidra-rl78](https://github.com/xyzz/ghidra-rl78) - I'm not sure how similar
 the RL78 instruction set is to the 78K0R.
