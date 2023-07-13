@@ -47,12 +47,54 @@ password, of course.
 
 The next step is to set up [78K0R Flash
 Leaker](https://github.com/AndrewGBelcher/78K0R_flash_leaker) (a glitching tool)
-to try to read out the password without triggering another erase.  In case the
-glitching attack yields the password and I'm able to extract the stock firmware
-from another VSP, I've saved a flash dump of a simple program to use as a test
-input to Ghidra.
+to try to read out the debugger protection settings, possibly including that
+password, without triggering another erase.  In case the glitching attack yields
+the password and I'm able to extract the stock firmware from another VSP, I've
+saved a flash dump of a simple program to use as a test input to Ghidra.
 
-Finally, and luckily, I believe another VSP will be on the way soon!
+Finally, the amazing folks at [EVs Enhanced](https://evsenhanced.com/) have sent
+a few more VSPs for the effort.  Thanks so much!
+
+### More on that "next step"
+Having read _Shaping the Glitch_, and quickly skimmed over the 78K0R Flash
+Leaker source code tonight, it's now clear that the flash dumping operation
+could be a bit more complicated than "lift a pin, solder in a transistor,
+program Arduino, retrieve password" which is admittedly what I'd assumed.  The
+paper describes using an aribitrary waveform generator (incidentally, I have one
+on my bench) to inject glitches, rather than a simple transitor to ground.
+Wrapped around the glitch injection hardware is a genetic algorithm that tunes
+the glitch waveform parameters, but that algorithm isn't described in much
+detail (perhaps my ignorance of genetic algorithms is showing - if necessary
+I'll study that more closely). They use this overall technique, called AGW, to
+discover vulnerabilities in the 78K0R, and identify a few approaches to read out
+data using these vulnerabilities.  SequentialDump is the most straightforward
+approach, though slowest, and all are substantially faster to exploit using AGW
+compared to traditional transistor-based glitch injection.
+
+The Flash Leaker tool seems to implement SequentialDump as described in the
+paper, but using simple transistor based glitch injection hardware, so it is
+much slower than the paper's approach. Using AGW, I'd expect extracting the
+complete VSP flash contents via SequentialDump to take a little under a week.
+That increases to over 3 weeks with a simple transistor glitch injector.  I'm a
+patient guy, but also it would be fun to have an excuse to play with that
+Arbitrary Waveform Generator...
+
+The 78K0R debugger interface protection settings are stored in flash, which I
+believe is readable through both the debug interface (a correctly configured
+EZ-CUBE, or SequentialDump attack) and normal application code, but I need to
+confirm that is the case even when the debugger interface isn't already running
+or is disabled. To do that, I'll make a firmware that dumps the flash contents
+through a UART or similar, and see what happens when it is run from a cold boot
+with various flash protection settings enabled.  If it's possible to read those
+settings (including a potential password), the 78K0R Flash Leaker should be
+adequate, so the logical next step would be to try it on the stock firmware.
+But, if the debug interface can be (almost) entirely disabled, a more involved
+process will be required. The paper describes an approach that could be a good
+start, we'll get to that if necessary.
+
+In any case, I've now got functional VSP hardware but without the stock
+firmware, so I can safely experiment with that until it's time to try extracting
+firmware from one of the donated VSPs!
 
 ## Theory of Operation
 The VSP system is fairly straightforward.  The computer lives just above
@@ -227,7 +269,7 @@ This series of posts was particularly useful for alerting me to UDS/KWP2000, but
 also has some useful info about firmware updates for these sorts of things.
 
 [PS4 Aux Hax 2: Syscon](https://fail0verflow.com/blog/2018/ps4-syscon/) -
-Interesting writeup on PlayStation 4 hacking, which seems unrelated, but it
+Interesting writeup on PlayStation 4 hacking, which might seem unrelated, but it
 turns out the micro is an RL78 which at some level is a descendant of the 78K0R.
 This has a few useful clues regarding the debug port protection features
 (interestingly, it indicates that the ROM of that chip does check the "erase
