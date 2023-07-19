@@ -11,17 +11,18 @@ This project scratches a few itches:
   * My CANbus skills aren't what I'd like them to be
   * I'd like an excuse to try reverse engineering a firmware image
   * Breaking in to locked hardware seems like a good challenge
-  * I want my car to sound like the the Jessons' (stretch goal: to "rev the
-    engine" while stopped)
+  * I want my car to sound like the the Jetsons'
+    * Stretch goal: ability to "rev the engine" while stopped
 
 ## Project Status
 
 ![Workbench with hackily wired together circuit boards, animated blinking LED]({{ site.url }}/media/20230712-vsp-blink.gif)
 
-Currently, I'm pursuing a "software only" hack - the idea is to work out a way
-to reprogram the VSP computer installed in a Leaf, using a device plugged in to
-the OBDII diagnostic connector.  If this proves untenable, an alternative is to
-make a replacement board for the VSP computer that emulates the original one.
+Currently, I'm pursuing a "software only" hack - the idea is to develop a way to
+reprogram the VSP computer in a Leaf, by using a device plugged in to the OBDII
+diagnostic connector.  If this proves untenable, an alternative is to make a
+replacement board for the VSP computer that emulates the original one but is
+more customisable.
 
 I've set up a small CAN bus on the workbench, connecting only a VSP and a
 CANable.  A hacky little program on my laptop talks with the CANable via
@@ -37,19 +38,23 @@ weird), or it could be that a security setting in the micro triggered the erase
 because CS+ supplied the wrong password.  To be safe, I'm proceeding under the
 assumption that it was the latter.
 
-Using CS+, I've made a simple firmware for the VSP that blinks the LED (the VSP
-mute indication, located on the dash switch), and spent some time tinkering with
-the debug interface security settings.  Encouragingly, CS+ and the EZ-CUBE have
-the ability to read out the "Code flash memory" -including the region used to
-store the debug password- even when the security settings are configured to
-blank the flash if there's a password mismatch!  That's with a known debug
-password, of course.
+Using CS+, I've made a simple firmware for the VSP that blinks the LED (normally
+the VSP mute indication light inside the dash switch), and spent some time
+tinkering with the debug interface security settings.  Encouragingly, CS+ and
+the EZ-CUBE have the ability to read out the "Code flash memory" -including the
+region used to store the debug password- even when the security settings are
+configured to blank the flash if there's a password mismatch!  That's with a
+known debug password, of course.
 
-The next step is to set up a voltage fault injection system, toward reading out
-the stock firmware.  I'll try this approach on the VSP that I've already erased,
-and if it works, repeat it on a VSP with the stock firmware.  Several VSPs (of a
-few varieties!) were donated by the amazing folks at [EVs
-Enhanced](https://evsenhanced.com/) up in Christchurch - thanks so much!
+My workbench is more-or-less set up for a voltage fault injection system, toward
+reading out the stock firmware, but there's a bit of software work still to do.
+The 78K0R is still mounted on a VSP board, which isn't ideal - it requires very
+carefully bending pins on the chip, and the injected glitch comes directly from
+my waveform generator rather than going through a buffer.  I've designed and
+ordered a PCB that should help with both of those, for the real work if I get
+that far.  When the software is ready, I'll try reading the VSP that I've
+already erased and reprogrammed with my own firmware, and if that works, repeat
+the technique on a micro that still has the stock firmware.
 
 ## Theory of Operation
 The VSP system is fairly straightforward.  The computer lives just above
@@ -68,9 +73,9 @@ detailed CAN bus protocol.
 
 The VSP is powered by a Renesas RL78K0R/FE3 (16 bit, 24MHz, 192kB code flash,
 16kB data flash, 12kB RAM, 2.7-5.5V) which is pretty obscure.  And, obsolete.
-The 78K0R connects with a Yamaha YMF827-S audio chip, with an attached flash
-chip.  Presumably, this is used to generate some sounds, and play others back
-from the flash, all under the command of the 78K0R.
+The 78K0R connects with a Yamaha YMF827-S audio chip, which is in turn connected
+to a flash chip.  Presumably, the Yamaha chip is used to synthesize some sounds,
+and play others back from its flash - all under the command of the 78K0R.
 
 ## TODO
   * Fill in documentation gaps
@@ -78,13 +83,18 @@ from the flash, all under the command of the 78K0R.
     * Schematic of connections to the micro
   * If "software only" approach isn't feasible, identify a compatible connector
     for CN1
+  * Implement flash readout technique from Shaping The Glitch
   * Read firmware out of VSP computer
   * How to reverse engineer firmwre blob?
-  * Figure out or find documentation of the Yamaha audio chip interface/protocol
+  * Figure out, or find documentation of, the Yamaha audio chip interface
 
 ## Hardware
 So far, I have access to VSP computers with three Nissan part numbers, from
-three Leaf generations.  All three have the same car harness connector, but the
+three Leaf generations.  All the VSPs besides the one 3NF0C model I started
+with, were donated by the amazing folks at [EVs
+Enhanced](https://evsenhanced.com/) up in Christchurch.  Thanks so much!
+
+All three models have the same car harness connector, but the
 3NA0B is wired differently - it uses K-Line and the latter two use CAN.
 
 My focus is on the 3NF0C version, as it is the type used in my car - when I
@@ -92,8 +102,12 @@ refer to "the VSP" it's this one.
 
 ### 285N6 3NA0B (Leaf ZE0)
 Based on a μPD78F1167A 78K0R/KG3 and Yamaha YMF807 with an ST TDA2003A audio
-power amp.  Notably larger enclosure overall, power amp heatsink is visible from
+power amp.
+
+Notably larger enclosure overall, power amp heatsink is visible from
 the outside.
+
+No conformal coating.
 
 Has a debug/programmer connector, where the later VSPs have the footprint but no
 connector placed.
@@ -109,17 +123,27 @@ IC402 is the main MCU, a Renesas μPD78F1834 aka 78K0R/FE3.  Labelled D78F1834
 have stock of this part - I haven't requested quotes from any, but it's good to
 know that it might be possible to buy a fresh micro.
 
+The MCU has a 20MHz XTAL
+
 IC201 is the audio chip
 
 CN1 is the connector the car's wiring harness
 
 CN2 is a debug connector for IC402
 
+This board has been slightly modified already, and since the micro on it doesn't
+have the stock firmware anymore, I won't have a lot more use for it.  Current
+thinking is to strip and scan the PCB (using [this technique]({{ site.url
+}}/2019/05/29/making-your-pcb-design-fit-with-someone-else's.html)) to make it a
+bit easier to trace out the wiring.
+
+IC402 wiring:
+
 | Pin Number | Pin name | Description          |
 | 23         | P130     | LED (also reset out) |
 
 ### 285N6 5SK0A (Leaf ZE1)
-Appears very similar 3NF0C.  Same PCB and main chips, but a number of parts are
+Appears very similar to 3NF0C.  Same PCB and main chips, but a number of parts are
 not populated - for instance Q305, Q306, C317, P2, R326.  Maybe the later VSPs
 don't play to speaker in the driver footwell?
 
@@ -219,9 +243,15 @@ It appears that Nissan used that option...
 
 ## Voltage Fault Injection aka Glitch Attack!
 This section is about using [Voltage Fault
-Injection](https://en.wikipedia.org/wiki/Fault_injection) to attempt retrieval
-of a password from the VSP firmware, which is required to connect a debugger to
-the VSP and reading out the flash.
+Injection](https://en.wikipedia.org/wiki/Fault_injection) to read the VSP
+firmware out from the 78K0R, despite it being protected.  The chip provides a
+security feature which optionally enables debugger access via a 10-byte code,
+but erases the flash if an incorrect password is attempted.  Both the security
+settings and the password are stored in the same flash as the firmware. Debugger
+access would make it easy to read out the entire flash quickly and accurately,
+but reading flash via the glitch attack will be very slow if it works at all.
+So, I'll attempt to read the password via the glitch attack before moving on to
+the rest of the firmware.
 
 Having read [_Shaping the
 Glitch_](https://tches.iacr.org/index.php/TCHES/article/view/7390/6562), and
