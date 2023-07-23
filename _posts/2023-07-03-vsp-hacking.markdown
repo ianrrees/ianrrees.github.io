@@ -56,6 +56,19 @@ that far.  When the software is ready, I'll try reading the VSP that I've
 already erased and reprogrammed with my own firmware, and if that works, repeat
 the technique on a micro that still has the stock firmware.
 
+I have started making a set of firmware and host software to orchestrate the
+attacks described in _Shaping the Glitch_, as it seemed (now, less so...) easier
+than adapting the existing flash leaker setup to hardware I've got on hand.
+Also, this is a hobby thing, and I think it would be fun to have a system more
+like the one described in the paper!
+
+Software work is progressing, though somewhat slowly as I've had some things to
+do IRL and my initial attempt at controlling the waveform generator using
+NI-VISA turned out to be way too much trouble.
+
+Currently thinking that the 78K0R flash extraction stuff should go in to its own
+blog post - will aim to do some documentation work soon.
+
 ## Theory of Operation
 The VSP system is fairly straightforward.  The computer lives just above
 the glove box, it's easy to get to and connects to the car wiring harness with
