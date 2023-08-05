@@ -44,30 +44,26 @@ tinkering with the debug interface security settings.  Encouragingly, CS+ and
 the EZ-CUBE have the ability to read out the "Code flash memory" -including the
 region used to store the debug password- even when the security settings are
 configured to blank the flash if there's a password mismatch!  That's with a
-known debug password, of course.
+known debug password, of course, but it may mean that one only needs to read a
+few bytes worth of password using some other method, before the regular tool can
+be used to read out the rest.
 
-My workbench is more-or-less set up for a voltage fault injection system, toward
-reading out the stock firmware, but there's a bit of software work still to do.
-The 78K0R is still mounted on a VSP board, which isn't ideal - it requires very
-carefully bending pins on the chip, and the injected glitch comes directly from
-my waveform generator rather than going through a buffer.  I've designed and
-ordered a PCB that should help with both of those, for the real work if I get
-that far.  When the software is ready, I'll try reading the VSP that I've
-already erased and reprogrammed with my own firmware, and if that works, repeat
-the technique on a micro that still has the stock firmware.
+I'm currently building a system to use for extracting firmware out of the VSP,
+using a technique from a whitepaper called [_Shaping the
+Glitch_](https://tches.iacr.org/index.php/TCHES/article/view/7390/6562) - this
+should bypass the security feature in the 78K0R that blanked my original VSP. My
+blanked board will be useful as a development tool (with some dummy firmware
+loaded) to test the new attack against before I attempt it on a donated VSP that
+still has the original firmware.
 
-I have started making a set of firmware and host software to orchestrate the
-attacks described in _Shaping the Glitch_, as it seemed (now, less so...) easier
-than adapting the existing flash leaker setup to hardware I've got on hand.
-Also, this is a hobby thing, and I think it would be fun to have a system more
-like the one described in the paper!
+Work on the glitching system is progressing slowly, as I've had some things to
+do IRL and there have been a few snags to work through.  That's mostly covered
+in [another blog post]({{ site.url }}/2023/08/05/voltage-glitch-injection.html).
 
-Software work is progressing, though somewhat slowly as I've had some things to
-do IRL and my initial attempt at controlling the waveform generator using
-NI-VISA turned out to be way too much trouble.
-
-Currently thinking that the 78K0R flash extraction stuff should go in to its own
-blog post - will aim to do some documentation work soon.
+Presuming I manage to read out an original VSP firmware, the next step will be
+to reverse engineer it, for two purposes: to make a modified firmware, and to
+understand the firmware update procedure (assuming there is one!).  More on this
+in the Ghidra section below.
 
 ## Theory of Operation
 The VSP system is fairly straightforward.  The computer lives just above
@@ -254,66 +250,9 @@ particular:
 
 It appears that Nissan used that option...
 
-## Voltage Fault Injection aka Glitch Attack!
-This section is about using [Voltage Fault
-Injection](https://en.wikipedia.org/wiki/Fault_injection) to read the VSP
-firmware out from the 78K0R, despite it being protected.  The chip provides a
-security feature which optionally enables debugger access via a 10-byte code,
-but erases the flash if an incorrect password is attempted.  Both the security
-settings and the password are stored in the same flash as the firmware. Debugger
-access would make it easy to read out the entire flash quickly and accurately,
-but reading flash via the glitch attack will be very slow if it works at all.
-So, I'll attempt to read the password via the glitch attack before moving on to
-the rest of the firmware.
-
-Having read [_Shaping the
-Glitch_](https://tches.iacr.org/index.php/TCHES/article/view/7390/6562), and
-quickly skimmed over [78K0R Flash
-Leaker](https://github.com/AndrewGBelcher/78K0R_flash_leaker) source code that
-implements an attack from that paper, it's now clear that the flash dumping
-operation could be a bit more complicated than "lift a pin, solder in a
-transistor, program Arduino, retrieve password" which is admittedly what I'd
-assumed.  The paper describes using an aribitrary waveform generator to inject
-glitches, rather than a simple transitor to ground. Wrapped around the glitch
-injection hardware and the target, is a genetic algorithm that tunes the glitch
-waveform parameters.  But, that algorithm isn't described in much detail -
-perhaps my ignorance of genetic algorithms is showing, and if necessary I'll
-study more closely.  The authors use this overall technique, which they call
-AGW, to discover vulnerabilities in the 78K0R, and identify a few approaches to
-read out data using these vulnerabilities. "SequentialDump" is the most
-straightforward approach, though slowest, and all are substantially faster to
-exploit using AGW compared to traditional transistor-based glitch injection.
-
-The Flash Leaker tool seems to implement SequentialDump as described in the
-paper, but using simple transistor based(?) glitch injection hardware, rather
-than a genetic-algorithm-optimised arbitrary waveform, so it is much slower than
-the paper's approach. Using AGW, I'd expect extracting the complete VSP flash
-contents via SequentialDump to take a little under a week. That increases to
-over 3 weeks with a simple glitch injector.  I'm a patient guy, but also it
-would be fun to have an excuse to play with my arbitrary waveform generator...
-
-The 78K0R debugger interface protection settings are stored in flash, which I
-believe is readable through both the debug interface (a correctly configured
-EZ-CUBE, or SequentialDump attack) and normal application code, but I need to
-confirm that is the case even when the debugger interface isn't already running
-or is disabled. To do that, I'll make a firmware that dumps the flash contents
-through a UART or similar, and see what happens when it is run from a cold boot
-with various flash protection settings enabled.
-
-If it's possible to read those settings (including a potential password), the
-78K0R Flash Leaker should be adequate and the logical next step would be to try
-it on the stock firmware.  If the debug interface turns out to be almost
-entirely disabled, a more involved process will be required.  "Almost entirely",
-because connecting the debugger to my original VSP did manage to blank it!  The
-paper describes an approach that could be a good start, we'll get to that if
-necessary.  I've designed and ordered a PCB to make the electrical connections
-to the 78K0R a bit easier; depending on how my hacking time I get over the next
-week or two, I may wait until it arrives before attempting to hook everything up
-to the 78K0R from my original VSP.
-
-![Screenshot of KiCad PCB design for the new PCB]({{ site.url
-}}/media/20230717-78K0R-board-design.png)
-
+So, I'm pursuing an attack based around voltage fault (aka glitch) injection,
+more on that in [a separate post]({{ site.url
+}}/2023/08/05/voltage-glitch-injection.html).
 
 ## CAN Interface
 According to the Leaf service manual, the VSP can receive from:
