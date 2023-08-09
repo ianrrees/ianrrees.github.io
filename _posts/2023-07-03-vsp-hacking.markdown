@@ -282,30 +282,6 @@ Good article+video on DBC and CAN.
 This series of posts was particularly useful for alerting me to UDS/KWP2000, but
 also has some useful info about firmware updates for these sorts of things.
 
-[PS4 Aux Hax 2: Syscon](https://fail0verflow.com/blog/2018/ps4-syscon/) -
-Interesting writeup on PlayStation 4 hacking, which might seem unrelated, but it
-turns out the micro is an RL78 which at some level is a descendant of the 78K0R.
-This has a few useful clues regarding the debug port protection features
-(interestingly, it indicates that the ROM of that chip does check the "erase
-flash if debug probe password is incorrect" bit, but doesn't actually do the
-erase if the password is wrong), and good pointers for attacks using glitching
-and [differential power analysis](https://en.wikipedia.org/wiki/Power_analysis).
-
-[Reverse engineering Toshiba R100
-BIOS](https://hackaday.io/project/723-reverse-engineering-toshiba-r100-bios) - a
-series about another 16-bit Renesas micro, which appears to use a password
-protection scheme on the debug port like the 78K0R.  In their case the debug
-password scheme was vulnerable to a simple timing attack.
-
-[Renesas
-R01AN1131EU0101](https://www.renesas.com/us/en/document/apn/78k0-78k0r-rl78-and-v850-devices-flash-protection-and-security-setting-guide-rev101)
-\- Application Note describing flash protection and security settings for 78K0R
-among others.
-
-[78K0R Flash Leaker](https://github.com/AndrewGBelcher/78K0R_flash_leaker) - a
-promising Arduino project to slowly read out from the flash, possibly that debug
-password if the timing approach from the Toshiba BIOS series doesn't work.
-
 [Stack Exchange 78K0R disassembly
 question](https://reverseengineering.stackexchange.com/questions/2354/are-there-any-free-disassemblers-for-the-nec-78k0r-family-of-processors)
 \- only a decade old!  Seems to be a way to get assemby out from a firmware
