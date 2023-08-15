@@ -29,6 +29,9 @@ could be fun to play with, beyond the VSP project!
 
 ## Status/Plan
 
+![Animated gif of 78K0R Glitch attack hardware with LEDs blinking]({{ site.url
+}}/media/20230815-glitch-setup.gif)
+
 On my workbench is a more-or-less set up voltage fault injection system, but
 there's a bit of software work still to do.  There are basically 3 chunks of
 code that I've been working on, and the combination of them is just now able to
@@ -57,20 +60,21 @@ driven by the glitching hardware (about 0.5V minimum) or the 78K0R (0V minimum):
 ![Logic analyzer readout showing received data from 78K0R]({{ site.url
 }}/media/20230809-rx-from-flasher.png)
 
-The 78K0R that I've been tinkering with is still mounted on a Leaf VSP board,
-which isn't ideal for a couple reasons: connecting wiring for the attack
-requires very carefully bending pins on the chip, which could easily go wrong
-when attempted on a more-valuable chip that still has the original firmware,
-secondly the injected glitch comes directly from my waveform generator rather
-than going through a buffer.  I've designed and ordered a PCB that should help
-with both of those - I'll be able to simply transplant the chip from a fresh VSP
-on to the new board, and that board has a high performance op-amp to buffer the
-glitch from the signal generator.
+The 78K0R that I've been tinkering with has been moved from the Leaf VSP board,
+on to a PCB that I've designed for this purpose, and I have enough software in
+place that the basics of the attack seem to work.  But, so far, I've not managed
+to get the 78K0R to leak any information.
 
-When the glitch system is ready, I'll load some test firmware in a 78K0R that
-I've already erased, then try reading it out with this technique.  If that
-works, I'll repeat the technique on a micro that still has the stock firmware
-that I want to modify.
+One issue is to do with the op-amp buffer on the custom board; I didn't spend
+much time on choosing the op-amp, and think I may have accidentally bought one
+that isn't a good match for the rest of the circuit.  However, my signal
+generator seems like it should be adequate without a buffer, so for now I've
+bypassed the op-amp.  Can always come back to that later if needed!
+
+When the glitch system is ready, I'll load some test firmware in this 78K0R
+(which I've already erased the stock firmware from), then try reading it out
+with this technique.  If that works, I'll repeat the process on a micro that
+still has the stock firmware that I want to modify!
 
 ## Background
 78K0R supports a feature which optionally enables debugger access via a 10-byte
