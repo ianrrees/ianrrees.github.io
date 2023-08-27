@@ -30,3 +30,5 @@ I'm a complete Ruby newbie and haven't learned modern HTML worth a damn, so apol
 
 Photos are mine unless attributed otherwise or obviously not real.
 I do not recommend acting on anything you find here.
+
+code at ianrees dot en zee
