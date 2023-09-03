@@ -121,6 +121,63 @@ isn't blank!
 ![Screenshot of KiCad PCB design for the new PCB]({{ site.url
 }}/media/20230717-78K0R-board-design.png)
 
+The hardware provides a simple unity gain buffer, between the signal generator
+and the MCU power supply.  The buffer is based around a fairly high performance
+rail-to-rail op-amp, MAX4012.  Otherwise, it's just a simple breakout board for
+the 78K0R with headers for the programming interface, a few LEDs, and power
+connections.
+
+I didn't spend much time on the buffer design, and would do it differently next
+time.  For one; I'd use a current feedback op-amp, as that would be better
+suited for this application.  Secondly, I didn't pay enough attention to the
+power supply requirements; although the MAX4012 is happy enough operating from a
+single 3.3V supply, the input common mode voltage range only goes up to
+Vcc-2.25V, and with the unity gain amplifier wanting to output 3.3V that creates
+a problem...  Happily, it's not too hard to re-work the PCB so I can power the
+buffer from a higher voltage than the rest of the board, but it's a bit of an
+unnecessary hassle.
+
+A couple scope captures illustrate the problem, first one showing an input
+(yellow) and output (blue) signal, with the buffer powered by 3.3V:
+
+![Oscilloscope capture showing triangle wave input, distorted output]({{
+site.url }}/media/20230903-supply_3v3.png)
+
+Turning the buffer supply up to about 6V produces a much better transfer result:
+
+![Oscilloscope capture showing triangle wave input and output]({{
+site.url }}/media/20230903-supply_6v.png)
+
+Running the buffer off a higher voltage supply also reveals another design
+fault: the input to the buffer is floating unless driven by the signal
+generator.  This means that the output of the buffer can flail around between
+ground and the roughly 6V rail it now runs on - it turns out that running the
+buffer at about 6V, given the wide operating supply range of ye olde 78K0R, is
+OK.  But, that would fry modern chips, just to be safe I've gone ahead and added
+a 10kOhm resistor from the buffer input to ground.
+
+I've also found that the buffer doesn't sink enough current to get the 78K0R
+supply lower than about 1.25V, on a ~10ns timescale.  While this isn't great,
+I've found that making the glitches a bit longer in duration does result in the
+78K0R falling over, so perhaps it's good enough to work as-is.  In any case, the
+next step is in software, so I've made a couple measurements to get an idea of
+what would be required to take the voltage lower if an electronics revision is
+needed.  Yellow is input from the arbitrary waveform generator, blue is output
+of buffer to the 78K0R:
+
+![Oscilloscope capture showing input from signal generator and output to 78K0R -
+input makes smooth sinus dip to 0V, output has floor about 1.25V for about
+15ns]({{ site.url }}/media/20230903-buffered-glitch.png)
+
+So, as a bullet-point list:
+  * Board should take ~6V input, provide variable regulated lower voltage supply
+    for target chip.
+  * Put some gain in the buffer circuit, to both reduce common-mode voltage
+    requirements, and sharpen edges of glitch.
+  * Add input termination resistor (50Ohm matching?).
+  * Limit leakage current through control signals (reset, FLMD0, UART, etc).
+  * Higher current buffer.
+
 ## Resources
 
 [PS4 Aux Hax 2: Syscon](https://fail0verflow.com/blog/2018/ps4-syscon/) -
