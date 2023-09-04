@@ -208,3 +208,11 @@ work.  My implementation was heavily influenced by this one.
 [78k0-flash-utility](https://github.com/mnh-jansson/78k0-flash-utility) - Python
 implementation of some of the 78k0 flash interface.  Had a few good clues, in
 particular around holding FLMD0 high to enter flash programming mode.
+
+[Automotive Firmware Extraction And Analysis
+Techniques](https://etheses.bham.ac.uk/id/eprint/11516/1/VandenHerrewegen2021PhD.pdf)
+\- PhD thesis of Jan Van den Herrewegen, about 150 pages of excellent material
+  on car hacking, including a section on the Renesas 78K0 (very similar to our
+  78K0R).  And, thankfully open [source
+  code](https://github.com/janvdherrewegen/bootl-attacks) including their
+  implementation of the Shaping The Glitch attacks.

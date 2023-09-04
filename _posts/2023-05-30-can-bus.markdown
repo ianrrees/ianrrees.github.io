@@ -45,3 +45,7 @@ SocketCAN out of the box, and is capable of much higher bandwidth than ELM327.
 basically can provide a socket interface to CAN bus.  This is a very helpful
 layer of the stack, which allows a program to do stuff with CAN bus without
 needing a driver for every CAN adapter.
+
+## Further Reading
+[Adequate CAN](https://gitlab.com/RancidBacon/adequate-can) - List of CAN stuff
+by a likeminded Kiwi hacker.
