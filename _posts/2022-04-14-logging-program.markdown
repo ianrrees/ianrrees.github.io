@@ -79,7 +79,10 @@ Sources:
 * Pipes
 * Existence/contents of files and directories (maybe pipes are good enough for this)
 * `good` CLI
-* pcap?
+* pcap
+* gpio (via a standalone program, through a pipe)
+* audio
+* video
 
 Handling streams:
 * Nameable
