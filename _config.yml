@@ -5,7 +5,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://ianrrees.github.io/"
 
 # Sidebar settings
-description: Generalist tech-engineer guy
+description: Generalist tech-engineer
 
 # Social icons
 github: ianrrees
