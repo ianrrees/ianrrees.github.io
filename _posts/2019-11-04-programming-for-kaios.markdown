@@ -180,3 +180,5 @@ Footnotes, futher reading
   * [Minimal Rust WebAssembly](https://www.hellorust.com/demos/add/index.html)
 
   * [GerdaOS](https://gerda.tech/) looks like a cool alternative KaiOS build, I haven't tried it yet.
+
+  * The KaiOS development blog, [KaiOS.dev](https://kaios.dev), including a [blog post by Tom](https://kaios.dev/2024/03/webassembly-wasm-on-kaios/) on asm.js for KaiOS 2.5 and native WebAssembly (WASM) support on KaiOS 3.0
